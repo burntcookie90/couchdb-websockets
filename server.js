@@ -16,8 +16,8 @@ var server = http.createServer(function(req, resp) {
 
 var io = ioreq.listen(server);
 io.sockets.on('connection', function (socket) {
-	var client = http.createClient(5984, 'localhost');
-	var req = client.request('/test/_changes?feed=continuous');
+	var client = http.createClient(5984, 'index.vishnurajeevan.com');
+	var req = client.request('/hackathon_person/_changes?feed=continuous');
 	req.end();
 	req.on('response', function(response) {
 		response.setEncoding('ascii');
@@ -25,8 +25,8 @@ io.sockets.on('connection', function (socket) {
 			var update = JSON.parse(chunk);
 			if(update.id) {
 				console.log('has id ' + update.id);
-				var getDocClient = http.createClient(5984, 'localhost');
-				var docReq = getDocClient.request('/test/' + update.id);
+				var getDocClient = http.createClient(5984, 'index.vishnurajeevan.com');
+				var docReq = getDocClient.request('/hackathon_person/' + update.id);
 				docReq.end();
 				docReq.on('response', function(docResp) {
 					docResp.setEncoding('ascii');
